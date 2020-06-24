@@ -39,4 +39,3 @@ variable "repo_url" {
   description = "Github Repo for WebApp deployment"
   default = "https://github.com/microsoft/TailwindTraders-Website"
 }
-}
