@@ -54,30 +54,24 @@ jobs:
       if: github.ref == 'refs/heads/Main' && github.event_name == 'push'
       run: terraform apply -auto-approve -var 'mongodb_password=${{ secrets.MONGODB_PASSWORD }}' -var 'mssql_password=${{ secrets.MSSQL_PASSWORD }}' -var 'subscription_id=${{ secrets.SUBSCRIPTION_ID }}'
 
-  # deploy:
-  #   name: 'Configure Deployment Center'
-  #   runs-on: ubuntu-latest
-  #   needs: terraform
-  #   steps:
-   
-  #   - name: Azure Login 
-  #     uses: azure/login@v1
-  #     with:
-  #       creds: ${{ secrets.AZURE_CREDENTIALS }}
-  #       # creds: '{
-  #       #   "clientId":"${{ secrets.CLIENT_ID }}",
-  #       #   "clientSecret":"${{ secrets.CLIENT_SECRET }}",
-  #       #   "subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}",
-  #       #   "tenantId":"${{ secrets.TENANT_ID }}"
-  #       #   }'
+  deploy:
+    name: 'Configure Deployment Center'
+    runs-on: ubuntu-latest
+    needs: terraform
+    
+    steps:
+    - name: Azure Login 
+      uses: azure/login@v1
+      with:
+        creds: '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
 
-  #   - name: Azure CLI script
-  #     uses: azure/CLI@v1
-  #     with:
-  #       run: |
-  #       az webapp deployment source config --branch main --manual-integration --name Azure-Eats-WebApp --repo-url https://github.com/microsoft/TailwindTraders-Website --resource-group Azure-Eats-RG
+    - name: Azure CLI script
+      uses: azure/CLI@v1
+      with:
+        run: |
+        az webapp deployment source config --branch main --manual-integration --name Azure-Eats-WebApp --repo-url https://github.com/microsoft/TailwindTraders-Website --resource-group Azure-Eats-RG
 
-  #     # Azure logout 
-  #   - name: logout
-  #     run: |
-  #       az logout
+      # Azure logout 
+    - name: logout
+      run: |
+        az logout
