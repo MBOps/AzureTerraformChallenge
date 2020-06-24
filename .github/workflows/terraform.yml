@@ -29,30 +29,30 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v2
 
-    # # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token 
-    # - name: Setup Terraform
-    #   uses: hashicorp/setup-terraform@v1
-    #   with:
-    #     terraform_version: 0.12.25
+    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token 
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        terraform_version: 0.12.25
 
-    # # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    # - name: Terraform Init
-    #   run: terraform init
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      run: terraform init
      
-    # # Checks that all Terraform configuration files adhere to a canonical format
-    # - name: Terraform Format
-    #   run: terraform fmt -check
-    #   continue-on-error: true
+    # Checks that all Terraform configuration files adhere to a canonical format
+    - name: Terraform Format
+      run: terraform fmt -check
+      continue-on-error: true
 
-    # # Generates an execution plan for Terraform
-    # - name: Terraform Plan
-    #   run: terraform plan -var 'resource_prefix=${{ secrets.RESOURCE_PREFIX }}' -var 'mongodb_password=${{ secrets.MONGODB_PASSWORD }}' -var 'mssql_password=${{ secrets.MSSQL_PASSWORD }}' -var 'subscription_id=${{ secrets.SUBSCRIPTION_ID }}'
+    # Generates an execution plan for Terraform
+    - name: Terraform Plan
+      run: terraform plan -var 'resource_prefix=${{ secrets.RESOURCE_PREFIX }}' -var 'mongodb_password=${{ secrets.MONGODB_PASSWORD }}' -var 'mssql_password=${{ secrets.MSSQL_PASSWORD }}' -var 'subscription_id=${{ secrets.SUBSCRIPTION_ID }}'
     
-    #   # On push to master, build or change infrastructure according to Terraform configuration files
-    #   # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
-    # - name: Terraform Apply
-    #   if: github.ref == 'refs/heads/Main' && github.event_name == 'push'
-    #   run: terraform apply -auto-approve -var 'resource_prefix=${{ secrets.RESOURCE_PREFIX }}' -var 'mongodb_password=${{ secrets.MONGODB_PASSWORD }}' -var 'mssql_password=${{ secrets.MSSQL_PASSWORD }}' -var 'subscription_id=${{ secrets.SUBSCRIPTION_ID }}'
+      # On push to master, build or change infrastructure according to Terraform configuration files
+      # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
+    - name: Terraform Apply
+      if: github.ref == 'refs/heads/Main' && github.event_name == 'push'
+      run: terraform apply -auto-approve -var 'resource_prefix=${{ secrets.RESOURCE_PREFIX }}' -var 'mongodb_password=${{ secrets.MONGODB_PASSWORD }}' -var 'mssql_password=${{ secrets.MSSQL_PASSWORD }}' -var 'subscription_id=${{ secrets.SUBSCRIPTION_ID }}'
 
   deploy:
     name: 'Configure Deployment Center'
@@ -65,11 +65,11 @@ jobs:
       with:
         creds: '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
 
-    - name: Azure CLI script
-      uses: azure/CLI@v1
-      with:
-        inlineScript: |
-          az webapp deployment source config --branch ${{ secrets.REPO_BRANCH }} --manual-integration --name ${{ secrets.RESOURCE_PREFIX }}-WebApp --repo-url ${{ secrets.REPO_URL }} --resource-group ${{ secrets.RESOURCE_PREFIX }}-RG
+    # - name: Azure CLI script
+    #   uses: azure/CLI@v1
+    #   with:
+    #     inlineScript: |
+    #       az webapp deployment source config --branch ${{ secrets.REPO_BRANCH }} --manual-integration --name ${{ secrets.RESOURCE_PREFIX }}-WebApp --repo-url ${{ secrets.REPO_URL }} --resource-group ${{ secrets.RESOURCE_PREFIX }}-RG
 
 # Azure logout 
     - name: Azure Logout
