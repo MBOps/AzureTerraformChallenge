@@ -69,9 +69,9 @@ jobs:
       uses: azure/CLI@v1
       with:
         run: |
-        az webapp deployment source config --branch main --manual-integration --name Azure-Eats-WebApp --repo-url https://github.com/microsoft/TailwindTraders-Website --resource-group Azure-Eats-RG
+        'az webapp deployment source config --branch main --manual-integration --name Azure-Eats-WebApp --repo-url https://github.com/microsoft/TailwindTraders-Website --resource-group Azure-Eats-RG'
 
-      # Azure logout 
+# Azure logout 
     - name: logout
       run: |
         az logout
