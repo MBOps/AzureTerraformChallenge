@@ -115,8 +115,8 @@ resource "azurerm_container_group" "ACI" {
   container {
     name   = lower("${var.resource_prefix}-mongodb")
     image  = "mongo:latest"
-    cpu    = "0.5"
-    memory = "1.5"
+    cpu    = "1"
+    memory = "2"
     
     ports {
       port     = 27017
