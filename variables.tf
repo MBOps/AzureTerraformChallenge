@@ -30,12 +30,3 @@ variable "mongodb_password" {
   description = "Password for Admin of MongoDB"
 }
 
-variable  "branch" {
-  description = "Github Branch used for deployment"
-  default = "main"
-}
-
-variable "repo_url" {
-  description = "Github Repo for WebApp deployment"
-  default = "https://github.com/microsoft/TailwindTraders-Website"
-}
