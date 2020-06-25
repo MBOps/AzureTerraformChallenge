@@ -98,5 +98,16 @@ jobs:
     - name: Docker Build and Push to ACR
       working-directory: Source/Tailwind.Traders.Web
       run: | 
-        docker build . -t (${{ secrets.RESOURCE_PREFIX }} | sed 's/-//g'acr.azurecr.io/web)
+        docker build . -t azureeatsacracr.azurecr.io/web
         docker push azureeatsacr.azurecr.io/web
+
+    - name : Set AKS Context
+      uses: azure/aks-set-context@v1
+      with:
+          creds: '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}' # Azure credentials
+          resource-group: ${{ secrets.RESOURCE_PREFIX }}-RG
+          cluster-name: ${{ secrets.RESOURCE_PREFIX }}-AKS
+      id: login
+
+    - name: Install Helm
+      uses: azure/setup-helm@v1
