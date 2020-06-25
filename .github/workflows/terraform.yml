@@ -98,8 +98,8 @@ jobs:
     - name: Docker Build and Push to ACR
       working-directory: Source/Tailwind.Traders.Web
       run: | 
-        docker build . -t azureeatsacr.azurecr.io/web -t latest
-        docker push azureeatsacr.azurecr.io/web
+        docker build . -t azureeatsacr.azurecr.io/web:v1-${{ github.sha }} -t latest
+        docker push azureeatsacr.azurecr.io/web:v1-${{ github.sha }}
 
     - name : Set AKS Context
       uses: azure/aks-set-context@v1
