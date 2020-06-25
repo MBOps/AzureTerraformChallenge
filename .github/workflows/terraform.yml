@@ -114,4 +114,4 @@ jobs:
 
     - name: Run Helm Chart
       run: |
-        helm install azureeatsweb ./Deploy/helm/web -f ./Deploy/helm/web/values.yaml -f ./Deploy/helm/gvalues.yaml --set ingress.hosts={${{ secrets.RESOURCE_PREFIX }}-AKS} -f ./Deploy/helm/values.b2c.yaml
+        helm install azureeatsweb ./Deploy/helm/web -f ./Deploy/helm/web/values.yaml -f ./Deploy/helm/gvalues.yaml --set ingress.hosts={azure-eats-aks} -f ./Deploy/helm/values.b2c.yaml
