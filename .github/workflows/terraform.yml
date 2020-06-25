@@ -114,4 +114,4 @@ jobs:
 
     - name: Run Helm Chart
       run: |
-        helm install azureeatsweb ./Deploy/helm/web -f values.yaml
+        helm install azureeatsweb ./Deploy/helm/web -f /Deploy/helm/web/values.yaml
