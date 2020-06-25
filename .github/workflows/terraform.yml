@@ -54,24 +54,50 @@ jobs:
       if: github.ref == 'refs/heads/Main' && github.event_name == 'push'
       run: terraform apply -auto-approve -var 'resource_prefix=${{ secrets.RESOURCE_PREFIX }}' -var 'mongodb_password=${{ secrets.MONGODB_PASSWORD }}' -var 'mssql_password=${{ secrets.MSSQL_PASSWORD }}' -var 'subscription_id=${{ secrets.SUBSCRIPTION_ID }}'
 
-  deploy:
-    name: 'Configure Deployment Center'
+#   Commented out deploy to WebApp, changing to Docker build and ACR publish for Challenge 4
+#
+#   deploy:
+#     name: 'Configure Deployment Center'
+#     runs-on: ubuntu-latest
+#     needs: terraform
+    
+#     steps:
+#     - name: Azure Login 
+#       uses: azure/login@v1
+#       with:
+#         creds: '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
+
+#     - name: Azure CLI script
+#       uses: azure/CLI@v1
+#       with:
+#         inlineScript: |
+#           az webapp deployment source config --branch ${{ secrets.REPO_BRANCH }} --manual-integration --name ${{ secrets.RESOURCE_PREFIX }}-WebApp --repo-url ${{ secrets.REPO_URL }} --resource-group ${{ secrets.RESOURCE_PREFIX }}-RG
+
+# # Azure logout 
+#     - name: Azure Logout
+#       run: |
+#         az logout
+
+  build:
+    name: 'Build and Deploy Docker Image to ACR'
     runs-on: ubuntu-latest
     needs: terraform
-    
+
     steps:
-    - name: Azure Login 
-      uses: azure/login@v1
+    - name: 'Checkout GitHub Action' 
+      uses: actions/checkout@v2
       with:
-        creds: '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
+        repository: MBOps/AzureEats-Website
+    
 
-    - name: Azure CLI script
-      uses: azure/CLI@v1
+    - uses: azure/docker-login@v1
       with:
-        inlineScript: |
-          az webapp deployment source config --branch ${{ secrets.REPO_BRANCH }} --manual-integration --name ${{ secrets.RESOURCE_PREFIX }}-WebApp --repo-url ${{ secrets.REPO_URL }} --resource-group ${{ secrets.RESOURCE_PREFIX }}-RG
+        login-server: ${{ secrets.RESOURCE_PREFIX }}acr.azurecr.io
+        username: ${{ secrets.CLIENT_ID }}
+        password: ${{ secrets.CLIENT_SECRET }}
 
-# Azure logout 
-    - name: Azure Logout
-      run: |
-        az logout
+    - name: Docker Build and Push to ACR
+      working-directory: Source/Tailwind.Traders.Web
+      run: | 
+        docker build . -t ${{ secrets.RESOURCE_PREFIX }}acr.azurecr.io/web
+        docker push ${{ secrets.RESOURCE_PREFIX }}acr.azurecr.io/web
