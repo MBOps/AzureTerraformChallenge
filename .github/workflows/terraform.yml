@@ -89,15 +89,14 @@ jobs:
       with:
         repository: MBOps/AzureEats-Website
     
-
     - uses: azure/docker-login@v1
       with:
-        login-server: ${{ secrets.RESOURCE_PREFIX }}acr.azurecr.io
+        login-server: azureeatsacr.azurecr.io
         username: ${{ secrets.CLIENT_ID }}
         password: ${{ secrets.CLIENT_SECRET }}
 
     - name: Docker Build and Push to ACR
       working-directory: Source/Tailwind.Traders.Web
       run: | 
-        docker build . -t ${{ secrets.RESOURCE_PREFIX }}acr.azurecr.io/web
-        docker push ${{ secrets.RESOURCE_PREFIX }}acr.azurecr.io/web
+        docker build . -t azureeatsacr.azurecr.io/web
+        docker push azureeatsacr.azurecr.io/web
