@@ -98,5 +98,5 @@ jobs:
     - name: Docker Build and Push to ACR
       working-directory: Source/Tailwind.Traders.Web
       run: | 
-        docker build . -t azureeatsacr.azurecr.io/web
+        docker build . -t (${{ secrets.RESOURCE_PREFIX }} | sed 's/-//g'acr.azurecr.io/web)
         docker push azureeatsacr.azurecr.io/web
