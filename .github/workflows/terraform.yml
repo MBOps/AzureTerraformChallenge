@@ -114,4 +114,4 @@ jobs:
 
     - name: Run Helm Chart
       run: |
-        helm install -f ./Deploy/helm/web
+        helm install azureeatsweb -f ./Deploy/helm/web
