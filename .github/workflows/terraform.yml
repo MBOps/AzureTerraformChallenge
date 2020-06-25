@@ -95,11 +95,11 @@ jobs:
         username: ${{ secrets.CLIENT_ID }}
         password: ${{ secrets.CLIENT_SECRET }}
 
-    # - name: Docker Build and Push to ACR
-    #   working-directory: Source/Tailwind.Traders.Web
-    #   run: | 
-    #     docker build . -t azureeatsacr.azurecr.io/web
-    #     docker push azureeatsacr.azurecr.io/web
+    - name: Docker Build and Push to ACR
+      working-directory: Source/Tailwind.Traders.Web
+      run: | 
+        docker build . -t azureeatsacr.azurecr.io/web
+        docker push azureeatsacr.azurecr.io/web
 
     - name : Set AKS Context
       uses: azure/aks-set-context@v1
