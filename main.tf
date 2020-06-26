@@ -172,8 +172,8 @@ resource "azurerm_kubernetes_cluster" "AKS" {
 
   default_node_pool {
     name       = "default"
-    node_count = 1
-    vm_size    = "Standard_D2_v2"
+    node_count = 2
+    vm_size    = "Standard_D1_v2"
   }
 
   addon_profile {
