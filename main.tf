@@ -243,7 +243,7 @@ resource "kubernetes_service" "consul" {
     load_balancer_ip = azurerm_public_ip.staticIP.ip_address
     port {
       port        = 8080
-      target_port = 80
+      target_port = 8080
     }
 
     type = "LoadBalancer"
