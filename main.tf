@@ -196,7 +196,7 @@ resource "azurerm_kubernetes_cluster" "AKS" {
 
 resource "azurerm_public_ip" "staticIP" {
   name                = "${var.resource_prefix}-staticIP"
-  resource_group_name = azurerm_resource_group.rg.name
+  resource_group_name = azurerm_kubernetes_cluster.AKS.node_resource_group
   location            = azurerm_resource_group.rg.location
   allocation_method   = "Static"
 }
