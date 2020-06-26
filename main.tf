@@ -154,4 +154,8 @@ resource "azurerm_kubernetes_cluster" "AKS" {
   identity {
     type = "SystemAssigned"
   }
+
+  role_based_access_control {
+    enabled = true
+  }
 }
