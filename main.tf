@@ -219,15 +219,15 @@ provider "kubernetes" {
 
 # kubernetes secret with consul-federation.yaml
 
-resource "kubernetes_secret" "consul-connect-secret" {
-  metadata {
-    name = "consul-connect-auth"
-  }
-
-  data = {
-    file = file("consul-federation.yaml")
-  }
-}
+#resource "kubernetes_secret" "consul-connect-secret" {
+#  metadata {
+#    name = "consul-connect-auth"
+#  }
+#
+#  data = {
+#    file = file("consul-federation.yaml")
+#  }
+#}
 
 # kubernetes service points at selectors app=consul and component=mesh-gateway
 
