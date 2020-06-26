@@ -109,9 +109,9 @@ jobs:
           cluster-name: ${{ secrets.RESOURCE_PREFIX }}-AKS
       id: login
 
-    # - name : Deploy ttsa serviceaccount
-    #   run : |
-    #     kubectl create serviceaccount ttsa
+    - name : Deploy ttsa serviceaccount
+      run : |
+        kubectl create serviceaccount ttsa
 
     - name: Install Helm
       uses: azure/setup-helm@v1
