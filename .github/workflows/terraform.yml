@@ -98,8 +98,8 @@ jobs:
     - name: Docker Build and Push to ACR
       working-directory: Source/Tailwind.Traders.Web
       run: | 
-        docker build . -t azureeatsacr.azurecr.io/web:v1-${{ github.sha }} -t latest
-        docker push azureeatsacr.azurecr.io/web:v1-${{ github.sha }}
+        docker build . -t azureeatsacr.azurecr.io/web -t latest
+        docker push azureeatsacr.azurecr.io/web
 
     - name : Set AKS Context
       uses: azure/aks-set-context@v1
@@ -114,6 +114,6 @@ jobs:
 
     - name: Run Helm Chart
       run: |
-        helm upgrade --install azureeatsweb ./Deploy/helm/web -f ./Deploy/helm/web/values.yaml -f ./Deploy/helm/gvalues.yaml --set ingress.hosts={azure-eats-aks} -f ./Deploy/helm/values.b2c.yaml --set ingress.protocol=http --set ingress.protocol=http --set image.repository=azureeatsacr.azurecr.io/web --set image.tag=v1-${{ github.sha }}
+        helm upgrade --install azureeatsweb ./Deploy/helm/web -f ./Deploy/helm/web/values.yaml -f ./Deploy/helm/gvalues.yaml --set ingress.hosts={azure-eats-aks} -f ./Deploy/helm/values.b2c.yaml --set ingress.protocol=http --set image.repository=azureeatsacr.azurecr.io/web --set image.tag=latest
 
         
