@@ -3,3 +3,6 @@ global:
     datacenter: MBOps
 connect:
     enabled: true
+server:
+    replicas: 1
+    bootstrapExpect: 1
