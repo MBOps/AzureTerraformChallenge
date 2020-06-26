@@ -191,24 +191,9 @@ resource "helm_release" "consul" {
   name       = "azure-eats-aks-consul"
   repository = "https://helm.releases.hashicorp.com" 
   chart      = "consul"
-  version    = "6.0.1"
 
   # values = [
   #   "${file("values.yaml")}"
   # ]
 
-  set {
-    name  = "cluster.enabled"
-    value = "true"
-  }
-
-  set {
-    name  = "metrics.enabled"
-    value = "true"
-  }
-
-  set_string {
-    name  = "service.annotations.prometheus\\.io/port"
-    value = "9127"
-  }
 }
