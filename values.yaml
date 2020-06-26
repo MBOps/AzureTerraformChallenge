@@ -1,0 +1,4 @@
+global:
+    name: consul
+    datacenter: MBOps
+
