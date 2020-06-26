@@ -196,4 +196,13 @@ resource "helm_release" "consul" {
   #   "${file("values.yaml")}"
   # ]
 
+  set {
+    name  = "global.name"
+    value = "consul"
+  }
+
+  set {
+    name  = "global.datacenter"
+    value = "MBOps"
+  }
 }
