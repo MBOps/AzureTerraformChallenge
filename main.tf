@@ -203,11 +203,14 @@ resource "azurerm_public_ip" "staticIP" {
 
 
 # kubernetes secret with consul-federation.yaml
+# kubernetes service points at selectors app=consul and component=mesh-gateway
+
 # helm > kubeconfig ?? 
 
 provider "helm" {
   kubernetes {
-    host     = azurerm_kubernetes_cluster.AKS.kube_config.0.host
+    load_config_file       = "false"
+    host = azurerm_kubernetes_cluster.AKS.kube_config.0.host
 
     client_certificate     = base64decode(azurerm_kubernetes_cluster.AKS.kube_config.0.client_certificate)
     client_key             = base64decode(azurerm_kubernetes_cluster.AKS.kube_config.0.client_key)
@@ -226,3 +229,9 @@ resource "helm_release" "consul" {
   ]
 
 }
+
+## catalog syncing between K8s and Consul??? 
+#
+#/ # consul catalog services
+#consul
+#mesh-gateway
