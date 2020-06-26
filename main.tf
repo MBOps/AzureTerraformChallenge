@@ -139,6 +139,29 @@ resource "azurerm_container_registry" "ACR" {
   sku                 = "Basic"
 }
 
+# Create a log analytics workspace
+resource "azurerm_log_analytics_workspace" "logws" {
+    name                = "${var.resource_prefix}-logws"
+    location            = azurerm_resource_group.rg.location
+    resource_group_name = azurerm_resource_group.rg.name
+    sku                 = "PerGB2018"
+}
+
+# Create a log analytics solution to capture the logs from the containers on our cluster
+resource "azurerm_log_analytics_solution" "logsol" {
+    solution_name           = "ContainerInsights"
+    location                = azurerm_resource_group.rg.location
+    resource_group_name     = azurerm_resource_group.rg.name
+    workspace_resource_id   = azurerm_log_analytics_workspace.logws.id
+    workspace_name          = azurerm_log_analytics_workspace.logws.name
+
+    plan {
+        publisher = "Microsoft"
+        product   = "OMSGallery/ContainerInsights"
+    }
+}
+
+
 resource "azurerm_kubernetes_cluster" "AKS" {
   name                = "${var.resource_prefix}-AKS"
   location            = azurerm_resource_group.rg.location
@@ -153,5 +176,17 @@ resource "azurerm_kubernetes_cluster" "AKS" {
 
   identity {
     type = "SystemAssigned"
+  }
+
+  addon_profile {
+    oms_agent {
+      enabled                    = true
+      log_analytics_workspace_id = azurerm_log_analytics_workspace.logws.id
+      }
+    }
+  
+  service_principal {
+    client_id     = var.client_id
+    client_secret = var.client_secret
   }
 }

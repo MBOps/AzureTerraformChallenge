@@ -30,3 +30,12 @@ variable "mongodb_password" {
   description = "Password for Admin of MongoDB"
 }
 
+variable "client_id" {
+  description = "Client_ID for AKS Service Principal"
+}
+
+variable "client_secret" {
+  description = "Client_Secret for AKS Service Principal"
+}
+
+

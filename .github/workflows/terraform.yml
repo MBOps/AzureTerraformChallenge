@@ -46,13 +46,13 @@ jobs:
 
     # Generates an execution plan for Terraform
     - name: Terraform Plan
-      run: terraform plan -var 'resource_prefix=${{ secrets.RESOURCE_PREFIX }}' -var 'mongodb_password=${{ secrets.MONGODB_PASSWORD }}' -var 'mssql_password=${{ secrets.MSSQL_PASSWORD }}' -var 'subscription_id=${{ secrets.SUBSCRIPTION_ID }}'
+      run: terraform plan -var 'resource_prefix=${{ secrets.RESOURCE_PREFIX }}' -var 'mongodb_password=${{ secrets.MONGODB_PASSWORD }}' -var 'mssql_password=${{ secrets.MSSQL_PASSWORD }}' -var 'subscription_id=${{ secrets.SUBSCRIPTION_ID }}' -var 'client_id=${{ secrets.CLIENT_ID }}' -var 'client_secret=${{ secrets.CLIENT_SECRET }}'
     
       # On push to master, build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
     - name: Terraform Apply
       if: github.ref == 'refs/heads/Main' && github.event_name == 'push'
-      run: terraform apply -auto-approve -var 'resource_prefix=${{ secrets.RESOURCE_PREFIX }}' -var 'mongodb_password=${{ secrets.MONGODB_PASSWORD }}' -var 'mssql_password=${{ secrets.MSSQL_PASSWORD }}' -var 'subscription_id=${{ secrets.SUBSCRIPTION_ID }}'
+      run: terraform apply -auto-approve -var 'resource_prefix=${{ secrets.RESOURCE_PREFIX }}' -var 'mongodb_password=${{ secrets.MONGODB_PASSWORD }}' -var 'mssql_password=${{ secrets.MSSQL_PASSWORD }}' -var 'subscription_id=${{ secrets.SUBSCRIPTION_ID }}' -var 'client_id=${{ secrets.CLIENT_ID }}' -var 'client_secret=${{ secrets.CLIENT_SECRET }}'
 
 #   Commented out deploy to WebApp, changing to Docker build and ACR publish for Challenge 4
 #
@@ -100,10 +100,6 @@ jobs:
       run: | 
         docker build . -t azureeatsacr.azurecr.io/web -t latest
         docker push azureeatsacr.azurecr.io/web
-
-    - uses: azure/login@v1
-      with:
-        creds: '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
 
     - name : Set AKS Context
       uses: azure/aks-set-context@v1
