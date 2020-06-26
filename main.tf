@@ -237,8 +237,8 @@ resource "kubernetes_service" "consul" {
   }
   spec {
     selector = {
-      app = consul
-      component=mesh-gateway
+      app = "consul"
+      component = "mesh-gateway"
     }
     load_balancer_ip = azurerm_public_ip.staticIP.ip_address
     port {
