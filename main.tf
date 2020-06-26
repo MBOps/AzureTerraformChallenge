@@ -221,36 +221,34 @@ provider "kubernetes" {
 
 # resource "kubernetes_secret" "example" {
 #   metadata {
-#     name = "basic-auth"
+#     name = "consul-connect-auth"
 #   }
 
 #   data = {
-#     username = "admin"
-#     password = "P4ssw0rd"
+#     consul-federation.yaml file...
 #   }
-
-#   type = "kubernetes.io/basic-auth"
 # }
 
 # kubernetes service points at selectors app=consul and component=mesh-gateway
 
-# resource "kubernetes_service" "example" {
-#   metadata {
-#     name = "terraform-example"
-#   }
-#   spec {
-#     selector = {
-#       app = "${kubernetes_pod.example.metadata.0.labels.app}"
-#     }
-#     session_affinity = "ClientIP"
-#     port {
-#       port        = 8080
-#       target_port = 80
-#     }
+resource "kubernetes_service" "consul" {
+  metadata {
+    name = "consul-connect-service"
+  }
+  spec {
+    selector = {
+      app = consul
+      component=mesh-gateway
+    }
+    load_balancer_ip = azurerm_public_ip.staticIP.ip_address
+    port {
+      port        = 8080
+      target_port = 80
+    }
 
-#     type = "LoadBalancer"
-#   }
-# }
+    type = "LoadBalancer"
+  }
+}
 
 # helm > kubeconfig ?? 
 
