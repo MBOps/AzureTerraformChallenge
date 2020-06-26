@@ -194,7 +194,7 @@ resource "azurerm_kubernetes_cluster" "AKS" {
 
 # static IP
 
-resource "azurerm_public_ip" "challenge5" {
+resource "azurerm_public_ip" "staticIP" {
   name                = "${var.resource_prefix}-staticIP"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
@@ -207,13 +207,11 @@ resource "azurerm_public_ip" "challenge5" {
 
 provider "helm" {
   kubernetes {
-    host     = "https://104.196.242.174"
-    username = "ClusterMaster"
-    password = "MindTheGap"
+    host     = azurerm_kubernetes_cluster.AKS.kube_config.0.host
 
-    client_certificate     = file("~/.kube/client-cert.pem")
-    client_key             = file("~/.kube/client-key.pem")
-    cluster_ca_certificate = file("~/.kube/cluster-ca-cert.pem")
+    client_certificate     = "${base64decode(azurerm_kubernetes_cluster.AKS.kube_config.0.client_certificate)}"
+    client_key             = "${base64decode(azurerm_kubernetes_cluster.AKS.kube_config.0.client_key)}"
+    cluster_ca_certificate = "${base64decode(azurerm_kubernetes_cluster.AKS.kube_config.0.cluster_ca_certificate)}"
   }
 }
 
