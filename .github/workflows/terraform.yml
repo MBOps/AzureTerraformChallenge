@@ -101,6 +101,10 @@ jobs:
         docker build . -t azureeatsacr.azurecr.io/web -t latest
         docker push azureeatsacr.azurecr.io/web
 
+    - uses: azure/login@v1
+      with:
+        creds: '{"clientId":"${{ secrets.CLIENT_ID }}","clientSecret":"${{ secrets.CLIENT_SECRET }}","subscriptionId":"${{ secrets.SUBSCRIPTION_ID }}","tenantId":"${{ secrets.TENANT_ID }}"}'
+
     - name : Set AKS Context
       uses: azure/aks-set-context@v1
       with:
