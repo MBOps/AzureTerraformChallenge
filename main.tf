@@ -132,6 +132,8 @@ resource "azurerm_container_group" "ACI" {
 
 }
 
+###### Challenge4 ##########
+
 resource "azurerm_container_registry" "ACR" {
   name                = replace("${var.resource_prefix}-ACR", "-", "")
   resource_group_name = azurerm_resource_group.rg.name
@@ -187,6 +189,9 @@ resource "azurerm_kubernetes_cluster" "AKS" {
   }
 }
 
+###### Challenge5 ##########
+
+
 # static IP
 
 resource "azurerm_public_ip" "challenge5" {
@@ -199,6 +204,18 @@ resource "azurerm_public_ip" "challenge5" {
 
 # kubernetes secret with consul-federation.yaml
 # helm > kubeconfig ?? 
+
+provider "helm" {
+  kubernetes {
+    host     = "https://104.196.242.174"
+    username = "ClusterMaster"
+    password = "MindTheGap"
+
+    client_certificate     = file("~/.kube/client-cert.pem")
+    client_key             = file("~/.kube/client-key.pem")
+    cluster_ca_certificate = file("~/.kube/cluster-ca-cert.pem")
+  }
+}
 
 
 resource "helm_release" "consul" {
