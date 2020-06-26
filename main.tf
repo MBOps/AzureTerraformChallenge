@@ -193,9 +193,9 @@ resource "helm_release" "consul" {
   chart      = "consul"
   version    = "6.0.1"
 
-  values = [
-    "${file("values.yaml")}"
-  ]
+  # values = [
+  #   "${file("values.yaml")}"
+  # ]
 
   set {
     name  = "cluster.enabled"
