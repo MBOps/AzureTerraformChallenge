@@ -1,4 +1,5 @@
 global:
     name: consul
     datacenter: MBOps
-
+connect:
+    enabled: true
