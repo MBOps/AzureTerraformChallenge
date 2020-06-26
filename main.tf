@@ -202,8 +202,56 @@ resource "azurerm_public_ip" "staticIP" {
 }
 
 
+# provider "kubernetes" {
+#   load_config_file = "false"
+
+#   host = "https://104.196.242.174"
+
+#   client_certificate     = "${file("~/.kube/client-cert.pem")}"
+#   client_key             = "${file("~/.kube/client-key.pem")}"
+#   cluster_ca_certificate = "${file("~/.kube/cluster-ca-cert.pem")}"
+# }
+
+# resource "kubernetes_namespace" "example" {
+#   metadata {
+#     name = "my-first-namespace"
+#   }
+# }
+
 # kubernetes secret with consul-federation.yaml
+
+# resource "kubernetes_secret" "example" {
+#   metadata {
+#     name = "basic-auth"
+#   }
+
+#   data = {
+#     username = "admin"
+#     password = "P4ssw0rd"
+#   }
+
+#   type = "kubernetes.io/basic-auth"
+# }
+
 # kubernetes service points at selectors app=consul and component=mesh-gateway
+
+# resource "kubernetes_service" "example" {
+#   metadata {
+#     name = "terraform-example"
+#   }
+#   spec {
+#     selector = {
+#       app = "${kubernetes_pod.example.metadata.0.labels.app}"
+#     }
+#     session_affinity = "ClientIP"
+#     port {
+#       port        = 8080
+#       target_port = 80
+#     }
+
+#     type = "LoadBalancer"
+#   }
+# }
 
 # helm > kubeconfig ?? 
 
@@ -235,3 +283,14 @@ resource "helm_release" "consul" {
 #/ # consul catalog services
 #consul
 #mesh-gateway
+
+
+##Could be used for service account that needed to be added manually?
+# resource "kubernetes_service_account" "example" {
+#   metadata {
+#     name = "terraform-example"
+#   }
+#   secret {
+#     name = "${kubernetes_secret.example.metadata.0.name}"
+#   }
+# }
