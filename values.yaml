@@ -27,17 +27,17 @@ global:
     gossipEncryption:
       secretName: consul-federation
       secretKey: gossipEncryptionKey
-    connectInject:
-      enabled: true
-    meshGateway:
-      enabled: true
-    server:
-      replicas: 1
-      bootstrapExpect: 1
-    extraVolumes:
-      - type: secret
-        name: consul-federation
-        items:
-          - key: serverConfigJSON
-            path: config.json
-        load: true
+connectInject:
+  enabled: true
+meshGateway:
+  enabled: true
+server:
+  replicas: 1
+  bootstrapExpect: 1
+  extraVolumes:
+    - type: secret
+      name: consul-federation
+      items:
+        - key: serverConfigJSON
+          path: config.json
+      load: true
