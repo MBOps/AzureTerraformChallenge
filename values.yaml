@@ -3,7 +3,7 @@ global:
     datacenter: MBOps
 connect:
     enabled: true
-    enable_mesh_gateway_wan_federation = true
+    enable_mesh_gateway_wan_federation: true
 server:
     replicas: 1
     bootstrapExpect: 1
