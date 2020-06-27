@@ -225,11 +225,7 @@ resource "kubernetes_secret" "consul-connect-secret" {
   }
 
   data = {
-    caCert: file("caCert")
-    caKey: file("caKey")
-    gossipEncryptionKey: "xcIGCUUroXslUK4uL+Pr6yAUaNnKVJzHOuurxU+NCuM="
-    replicationToken: "79bfeb28-435e-a0a5-105a-cd99edacdfea"
-    serverConfigJSON: "{"primary_datacenter":"dc1","primary_gateways":["51.137.214.246:443"]}"
+    consul-federation = file("consul-federation.yaml")
   }
 }
 
