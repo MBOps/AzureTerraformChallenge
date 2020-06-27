@@ -269,16 +269,16 @@ provider "helm" {
 }
 
 
-resource "helm_release" "consul" {
-  name       = "azure-eats-aks-consul"
-  repository = "https://helm.releases.hashicorp.com" 
-  chart      = "consul"
+# resource "helm_release" "consul" {
+#   name       = "azure-eats-aks-consul"
+#   repository = "https://helm.releases.hashicorp.com" 
+#   chart      = "consul"
 
-  values = [
-    "${file("values.yaml")}"
-  ]
+#   values = [
+#     "${file("values.yaml")}"
+#   ]
 
-}
+# }
 
 ## catalog syncing between K8s and Consul??? 
 #
