@@ -7,11 +7,11 @@ global:
         # Here we're using the shared certificate authority from the primary
         # datacenter that was exported via the federation secret.
     caCert:
-    secretName: consul-federation
-    secretKey: caCert
+      secretName: consul-federation
+      secretKey: caCert
     caKey:
-    secretName: consul-federation
-    secretKey: caKey
+      secretName: consul-federation
+      secretKey: caKey
     
   acls:
     manageSystemACLs: true
