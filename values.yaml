@@ -22,11 +22,11 @@ global:
       secretName: consul-federation
       secretKey: replicationToken
     
-    federation:
-      enabled: true
-    gossipEncryption:
-      secretName: consul-federation
-      secretKey: gossipEncryptionKey
+  federation:
+    enabled: true
+  gossipEncryption:
+    secretName: consul-federation
+    secretKey: gossipEncryptionKey
 connectInject:
   enabled: true
 meshGateway:
