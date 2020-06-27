@@ -221,7 +221,7 @@ provider "kubernetes" {
 
 resource "kubernetes_secret" "consul-connect-secret" {
   metadata {
-    name = "consul-connect-secret"
+    name = "consul-federation"
   }
 
   data = {
