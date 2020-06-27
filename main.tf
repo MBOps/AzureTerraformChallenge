@@ -221,16 +221,16 @@ provider "kubernetes" {
 
 resource "kubernetes_secret" "consul-connect-secret" {
   metadata {
-    name = "consul-federation"
+    name = "consul-connect-secret"
   }
 
   data = {
-    #consul-federation = file("consul-federation.yaml")
-    caCert = file("caCert")
-    caKey = file("caKey")
-    gossipEncryptionKey: "xcIGCUUroXslUK4uL+Pr6yAUaNnKVJzHOuurxU+NCuM="
-    replicationToken: "79bfeb28-435e-a0a5-105a-cd99edacdfea"
-    serverConfigJSON= file("serverConfig")
+    consul-federation = file("consul-federation.yaml")
+    # caCert = file("caCert")
+    # caKey = file("caKey")
+    # gossipEncryptionKey: "xcIGCUUroXslUK4uL+Pr6yAUaNnKVJzHOuurxU+NCuM="
+    # replicationToken: "79bfeb28-435e-a0a5-105a-cd99edacdfea"
+    # serverConfigJSON= file("serverConfig")
   }
 }
 
