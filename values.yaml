@@ -1,9 +1,43 @@
 global:
     name: consul
     datacenter: MBOps
-connect:
+    tls:
+        enabled: true
+    
+        # Here we're using the shared certificate authority from the primary
+        # datacenter that was exported via the federation secret.
+        caCert:
+        secretName: consul-federation
+        secretKey: caCert
+        caKey:
+        secretName: consul-federation
+        secretKey: caKey
+    
+    acls:
+        manageSystemACLs: true
+    
+        # Here we're importing the replication token that was
+        # exported from the primary via the federation secret.
+        replicationToken:
+        secretName: consul-federation
+        secretKey: replicationToken
+    
+    federation:
+        enabled: true
+    gossipEncryption:
+        secretName: consul-federation
+        secretKey: gossipEncryptionKey
+    connectInject:
     enabled: true
-    enable_mesh_gateway_wan_federation: true
-server:
-    replicas: 1
-    bootstrapExpect: 1
+    meshGateway:
+    enabled: true
+    server:
+        replicas: 1
+        bootstrapExpect: 1
+    extraVolumes:
+        - type: secret
+        name: consul-federation
+        items:
+            - key: serverConfigJSON
+            path: config.json
+        load: true
