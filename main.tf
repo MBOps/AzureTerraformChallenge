@@ -225,12 +225,12 @@ resource "kubernetes_secret" "consul-connect-secret" {
   }
 
   data = {
-    consul-federation = file("consul-federation.yaml")
-    caCert: "${file(caCert)}"
-    caKey: "${file(caKey)}"
+    #consul-federation = file("consul-federation.yaml")
+    caCert = file("caCert")
+    caKey = file("caKey")
     gossipEncryptionKey: "xcIGCUUroXslUK4uL+Pr6yAUaNnKVJzHOuurxU+NCuM="
     replicationToken: "79bfeb28-435e-a0a5-105a-cd99edacdfea"
-    serverConfigJSON: "${file(serverConfig)}"
+    serverConfigJSON= file("serverConfig")
   }
 }
 
